@@ -1,0 +1,32 @@
+First I analized the data just to see what they looked like and determine how to use them so they can be relevant 
+for the prediction.
+
+Since the baseline proposed reaches a Concordance Index (CI) of 0.691 on the public test set, I decided to do the training 
+mostly on the public set to compare my results. I  also choose to work on the patients with Event=1 because they are
+the datas that reflect the best the survival time relatively to patient's cancer characteristics.
+
+To execute the functions from metrics.py I had to change the function _cindex_np :
+eligible_pairs = (times_i < times_j) * events_i ---> eligible_pairs = (times_i < times_j)
+
+I had 2 ideas of architectures :
+
+- Meth1 : First, a CNN like LeNet-5 (with a 1-neuron layer at the end).
+  As training set I used the 3D mask of each patient from the public set with Event=1 (features 92x92x92, 128 patients).
+  As test set I used the 3D mask of each patient from the public set (features 92x92x92, 85 patients)
+    and from the private set (features 92x92x92, 40 patients).
+  The results C-index are 0.404 on public set and 0.512 on private set.
+  
+- Meth2 : Then, again a CNN like LeNet-5 (with a 1-neuron layer at the end).
+  As training set I used the normalized sum of the mask on the axis=2 of each patient from the public set with Event=1 
+    (features 92x92, 128 patients).
+  As test set I used the normalized sum of the mask on the axis=2 of each patient from the public set 
+    (features 92x92, 85 patients) and from the private set (features 92x92, 40 patients)
+  The results C-index are 0.467 on public set and 0.532 on private set
+ 
+With more tile I would have like try this model
+- Meth3 : a MLP.
+  As training set I used the radiomics and clinical data (Nstage, Tstage, age) of each patient with Event=1 
+    (feature 1x56, 162 patients).
+  As test set I used the radiomics and clinical data (Nstage, Tstage, age) of each patient from the public set
+    (feature 1x56, 162 patients).
+ 
