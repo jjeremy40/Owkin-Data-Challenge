@@ -68,7 +68,7 @@ def _cindex_np(times, predicted_times, events, tol=1.e-8):
     times_j = times.reshape((1, -1))
     events_i = events.reshape((-1, 1))
 
-    eligible_pairs = (times_i < times_j) * events_i
+    eligible_pairs = (times_i < times_j)
 
     well_ordered = np.sum(eligible_pairs * (risks_i > risks_j))
     ties = + np.sum(eligible_pairs * 0.5 * (risks_i == risks_j))

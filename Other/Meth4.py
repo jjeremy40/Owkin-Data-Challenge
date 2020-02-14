@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-"""Method using the radiomics and clinical data using a simple MLP.
-We concatenate them to get a vector 1x57 per patient. We use all the datas from 
-x_train for the training et we separate de datas between dataset public and 
-dataset private to test the algorithme."""
+"""MLP :
+Train : concatenate radiomics and clinical data (Nstage, Tstage, age) for patient Event=1 (feature 1x57, 162 patients)
+Test : concatenate radiomucs and clinical data (Nstage, Tstage, age) for patient Event=1 (feature 1x57, 162 patients)
+"""
 
 import numpy as np
 import pandas as pd
@@ -65,7 +65,7 @@ model.add(tkl.Dense(1, activation='relu'))
 
 model.summary()
 
-model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse'])
 
 
 #%% Learning :
